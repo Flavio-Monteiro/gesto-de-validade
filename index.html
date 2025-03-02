@@ -3,17 +3,18 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Gestor de Estoque</title>
+    <title>Gestor de Validade em Estoque</title>
     <link rel="stylesheet" href="main.css">
 </head>
 <body>
     <div class="container">
-        <h1>Gestor de Validade de Estoque</h1>
+        <h1>Gestor de Validade em Estoque</h1>
         <div class="botoes">
             <input type="file" id="fileInput" accept=".xlsx, .xls" />
             <button onclick="importarDados()">Importar Planilha</button>
             <button onclick="adicionarManual()">Adicionar Manualmente</button>
             <button onclick="salvarBaseDados()">Salvar Base de Dados</button>
+            <button onclick="salvarDadosManuais()">Salvar Dados Manuais</button> <!-- Novo botão -->
             <button onclick="limparDados()" class="btn-limpar">Limpar Dados</button>
         </div>
         <div class="tabela-container">
@@ -27,6 +28,7 @@
                         <th>Dias para Vencer</th>
                         <th>Situação</th>
                         <th>Editar</th>
+                        <th>Remover</th>
                     </tr>
                 </thead>
                 <tbody>

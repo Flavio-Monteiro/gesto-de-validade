@@ -24,7 +24,11 @@ h1 {
     gap: 10px;
     margin-bottom: 20px;
 }
-
+/* Estilos para o botão Salvar Dados Manuais */
+button[onclick="salvarDadosManuais()"] {
+    background-color: #007bff; /* Azul */
+    color: white;
+}
 button {
     padding: 10px;
     border: none;
