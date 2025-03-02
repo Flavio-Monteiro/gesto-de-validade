@@ -78,7 +78,7 @@ h1 {
 /* Botão de Limpar Dados (Vermelho - Ação destrutiva) */
 .botoes button.btn-limpar {
     background-color: #dc3545; /* Vermelho */
-    padding: 20px;
+    /* padding: 10px; */
 }
 
 .botoes button.btn-limpar:hover {
@@ -240,5 +240,5 @@ h1 {
 
 
 #fileInput {
-  padding: 20px;
+  padding: 10px;
 }
