@@ -1,15 +1,17 @@
 /* Estilos gerais */
 body {
     font-family: Arial, sans-serif;
+    background-color: #f4f4f4;
     margin: 0;
     padding: 0;
-    background-color: #f4f4f4;
 }
 
 .container {
     max-width: 1200px;
     margin: 0 auto;
     padding: 20px;
+    background-color: #fff;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
 }
 
 h1 {
@@ -17,105 +19,199 @@ h1 {
     color: #333;
 }
 
-/* Estilos para os botões */
 .botoes {
     display: flex;
     flex-wrap: wrap;
     gap: 10px;
     margin-bottom: 20px;
+    
 }
-/* Estilos para o botão Salvar Dados Manuais */
-button[onclick="salvarDadosManuais()"] {
-    background-color: #007bff; /* Azul */
-    color: white;
-}
-button {
-    padding: 10px;
+
+/* Estilos dos botões com cores semânticas */
+.botoes button {
+    padding: 10px 20px;
+    color: #fff;
     border: none;
     border-radius: 5px;
     cursor: pointer;
-    background-color: #4CAF50;
-    color: white;
-    font-size: 14px;
-    flex: 1 1 150px; /* Flexível, mínimo de 150px */
+    transition: background-color 0.3s ease;
+  
 }
 
-button:hover {
-    opacity: 0.8;
+/* Botão de Importar Planilha (Azul - Ação de carregar dados) */
+.botoes button:nth-child(2) {
+    background-color: #007bff; /* Azul */
+     
 }
 
-.btn-limpar {
-    background-color: #ff4444;
+.botoes button:nth-child(2):hover {
+    background-color: #0056b3; /* Azul mais escuro */
 }
 
-/* Estilos para a tabela */
+/* Botão de Adicionar Manualmente (Verde - Ação de adicionar) */
+.botoes button:nth-child(3) {
+    background-color: #28a745; /* Verde */
+}
+
+.botoes button:nth-child(3):hover {
+    background-color: #218838; /* Verde mais escuro */
+}
+
+/* Botão de Salvar Base de Dados (Azul claro - Ação de salvar) */
+.botoes button:nth-child(4) {
+    background-color: #17a2b8; /* Azul claro */
+}
+
+.botoes button:nth-child(4):hover {
+    background-color: #138496; /* Azul claro mais escuro */
+}
+
+/* Botão de Salvar Dados Manuais (Verde claro - Ação de salvar) */
+.botoes button:nth-child(5) {
+    background-color: #20c997; /* Verde claro */
+}
+
+.botoes button:nth-child(5):hover {
+    background-color: #1aa179; /* Verde claro mais escuro */
+}
+
+/* Botão de Limpar Dados (Vermelho - Ação destrutiva) */
+.botoes button.btn-limpar {
+    background-color: #dc3545; /* Vermelho */
+    padding: 20px;
+}
+
+.botoes button.btn-limpar:hover {
+    background-color: #c82333; /* Vermelho mais escuro */
+}
+
+/* Estilos do formulário */
+#formularioAdicionar {
+    background-color: #f9f9f9;
+    padding: 20px;
+    border-radius: 5px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    margin-bottom: 20px;
+}
+
+#formularioAdicionar h2 {
+    margin-top: 0;
+    color: #333;
+}
+
+#formularioAdicionar label {
+    display: block;
+    margin-bottom: 5px;
+    color: #555;
+}
+
+#formularioAdicionar input {
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 15px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    font-size: 16px;
+}
+
+#formularioAdicionar button[type="submit"] {
+    background-color: #28a745; /* Verde */
+    color: #fff;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+#formularioAdicionar button[type="submit"]:hover {
+    background-color: #218838; /* Verde mais escuro */
+}
+
+#formularioAdicionar button[type="button"] {
+    background-color: #dc3545; /* Vermelho */
+    color: #fff;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+#formularioAdicionar button[type="button"]:hover {
+    background-color: #c82333; /* Vermelho mais escuro */
+  
+    
+}
+
+/* Estilos da tabela */
 .tabela-container {
-    overflow-x: auto; /* Permite rolagem horizontal em telas pequenas */
+    overflow-x: auto;
 }
 
-table {
+#estoqueTable {
     width: 100%;
     border-collapse: collapse;
-    margin-top: 20px;
-    background-color: white;
+    margin-bottom: 20px;
 }
 
-th, td {
-    border: 1px solid #ddd;
-    padding: 8px;
-    text-align: center;
+#estoqueTable th,
+#estoqueTable td {
+    padding: 12px;
+    text-align: left;
+    border-bottom: 1px solid #ddd;
 }
 
-th {
-    background-color: #f2f2f2;
+#estoqueTable th {
+    background-color: #007bff; /* Azul */
+    color: #fff;
 }
 
-tr:nth-child(even) {
-    background-color: #f9f9f9;
-}
-
-tr:hover {
+#estoqueTable tr:hover {
     background-color: #f1f1f1;
 }
 
-/* Estilos para a coluna de situação */
-td:nth-child(6) {
-    font-weight: bold;
+#estoqueTable button {
+    padding: 5px 10px;
+    background-color: #dc3545; /* Vermelho */
+    color: #fff;
+    border: none;
+    border-radius: 3px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
 }
 
-/* Cores para a situação */
-.Vencido {
-    background-color: #ffcccc; /* Vermelho claro */
-}
-.Vence-hoje {
-    background-color: #ffebcc; /* Laranja claro */
-}
-.Prazo-estourado {
-    background-color: #fff3cc; /* Amarelo claro */
-}
-.No-prazo-para-retirada {
-    background-color: #ccffcc; /* Verde claro */
-}
-.Dentro-da-validade {
-    background-color: #ccf2ff; /* Azul claro */
+#estoqueTable button:hover {
+    background-color: #c82333; /* Vermelho mais escuro */
 }
 
-/* Media Queries para responsividade */
+/* Responsividade */
 @media (max-width: 768px) {
     .botoes {
         flex-direction: column;
     }
 
-    button {
+    .botoes button {
         width: 100%;
+        margin-bottom: 10px;
     }
 
-    table {
+    #formularioAdicionar {
+        padding: 15px;
+    }
+
+    #formularioAdicionar input {
         font-size: 14px;
     }
 
-    th, td {
-        padding: 6px;
+    #estoqueTable th,
+    #estoqueTable td {
+        padding: 8px;
+    }
+
+    #estoqueTable button {
+        padding: 5px;
+        font-size: 14px;
     }
 }
 
@@ -124,11 +220,25 @@ td:nth-child(6) {
         font-size: 24px;
     }
 
-    table {
+    #formularioAdicionar h2 {
+        font-size: 20px;
+    }
+
+    #formularioAdicionar input {
         font-size: 12px;
     }
 
-    th, td {
-        padding: 4px;
+    #estoqueTable th,
+    #estoqueTable td {
+        font-size: 12px;
     }
+
+    #estoqueTable button {
+        font-size: 12px;
+    }
+}
+
+
+#fileInput {
+  padding: 20px;
 }

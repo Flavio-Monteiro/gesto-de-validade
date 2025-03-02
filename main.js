@@ -1,12 +1,52 @@
-document.addEventListener("DOMContentLoaded", function() {
-    console.log("Página carregada. Carregando dados do localStorage..."); // Debug
+document.addEventListener("DOMContentLoaded", function () {
+    console.log("Página carregada. Carregando dados do localStorage...");
     const estoqueTable = document.getElementById("estoqueTable").getElementsByTagName('tbody')[0];
+    const formularioAdicionar = document.getElementById("formularioAdicionar");
+    const formAdicionar = document.getElementById("formAdicionar");
     let estoque = JSON.parse(localStorage.getItem("estoque")) || [];
-    console.log("Dados carregados:", estoque); // Debug
+
+    // Função para mostrar o formulário
+    window.mostrarFormulario = function () {
+        formularioAdicionar.style.display = "block";
+    };
+
+    // Função para ocultar o formulário
+    window.ocultarFormulario = function () {
+        formularioAdicionar.style.display = "none";
+        formAdicionar.reset(); // Limpa os campos do formulário
+    };
+
+    // Função para adicionar item manualmente
+    formAdicionar.addEventListener("submit", function (event) {
+        event.preventDefault(); // Evita o recarregamento da página
+
+        const codigo = document.getElementById("codigo").value;
+        const produto = document.getElementById("produto").value;
+        const quantidade = parseInt(document.getElementById("quantidade").value);
+        const dataValidade = new Date(document.getElementById("dataValidade").value);
+
+        if (codigo && produto && !isNaN(quantidade) && dataValidade instanceof Date && !isNaN(dataValidade)) {
+            const diasParaVencer = calcularDiasParaVencer(dataValidade);
+
+            estoque.push({
+                codigo,
+                produto,
+                quantidade,
+                dataValidade,
+                diasParaVencer,
+                situacao: calcularSituacao(diasParaVencer)
+            });
+
+            atualizarTabela();
+            ocultarFormulario(); // Oculta o formulário após adicionar o item
+        } else {
+            alert("Por favor, preencha todos os campos corretamente.");
+        }
+    });
 
     // Função para atualizar a tabela
     function atualizarTabela() {
-        console.log("Atualizando tabela..."); // Debug
+        console.log("Atualizando tabela...");
         estoqueTable.innerHTML = ""; // Limpa a tabela antes de atualizar
         estoque.forEach((item, index) => {
             const row = estoqueTable.insertRow();
@@ -44,50 +84,48 @@ document.addEventListener("DOMContentLoaded", function() {
 
         // Salva os dados no localStorage
         localStorage.setItem("estoque", JSON.stringify(estoque));
-        console.log("Tabela atualizada e dados salvos no localStorage."); // Debug
+        console.log("Tabela atualizada e dados salvos no localStorage.");
     }
 
-    // Função para salvar dados inseridos manualmente em um arquivo XLS
-    function salvarDadosManuais() {
-        if (estoque.length === 0) {
-            alert("Nenhum dado manual foi inserido.");
-            return;
-        }
-
-        // Cria uma nova planilha
-        const worksheet = XLSX.utils.json_to_sheet(estoque);
-        const workbook = XLSX.utils.book_new();
-        XLSX.utils.book_append_sheet(workbook, worksheet, "Estoque");
-
-        // Salva o arquivo
-        XLSX.writeFile(workbook, "estoque_manual.xlsx");
-        console.log("Dados manuais salvos em estoque_manual.xlsx"); // Debug
+    // Função para calcular os dias para vencer
+    function calcularDiasParaVencer(dataValidade) {
+        const hoje = new Date();
+        const diffTime = dataValidade - hoje;
+        return Math.ceil(diffTime / (1000 * 60 * 60 * 24));
     }
 
-    // Função para remover um item
-    function removerItem(index) {
-        if (confirm("Tem certeza que deseja remover este produto?")) {
-            console.log("Removendo item:", estoque[index]); // Debug
-            estoque.splice(index, 1); // Remove o item do array
-            atualizarTabela(); // Atualiza a tabela
+    // Função para calcular a situação
+    function calcularSituacao(diasParaVencer) {
+        if (diasParaVencer === null || isNaN(diasParaVencer)) {
+            return "Data inválida";
+        } else if (diasParaVencer < 0) {
+            return "Vencido";
+        } else if (diasParaVencer === 0) {
+            return "Vence hoje";
+        } else if (diasParaVencer <= 10) {
+            return "Prazo estourado";
+        } else {
+            return "Dentro da validade";
         }
     }
 
     // Função para obter a cor da situação
     function getCorSituacao(situacao) {
         switch (situacao) {
-            case "Vencido":
-                return "#ffcccc"; // Vermelho claro
-            case "Vence hoje":
-                return "#ffebcc"; // Laranja claro
-            case "Prazo estourado":
-                return "#fff3cc"; // Amarelo claro
-            case "No prazo para retirada":
-                return "#ccffcc"; // Verde claro
-            case "Dentro da validade":
-                return "#ccf2ff"; // Azul claro
-            default:
-                return "#ffffff"; // Branco
+            case "Vencido": return "#ffcccc";
+            case "Vence hoje": return "#ffebcc";
+            case "Prazo estourado": return "#fff3cc";
+            case "No prazo para retirada": return "#ccffcc";
+            case "Dentro da validade": return "#ccf2ff";
+            default: return "#ffffff";
+        }
+    }
+
+    // Função para remover um item
+    function removerItem(index) {
+        if (confirm("Tem certeza que deseja remover este produto?")) {
+            estoque.splice(index, 1);
+            atualizarTabela();
         }
     }
 
@@ -101,9 +139,7 @@ document.addEventListener("DOMContentLoaded", function() {
 
         if (novoCodigo && novoProduto && novaQuantidade && novaDataValidade) {
             const novaDataValidadeObj = new Date(novaDataValidade);
-            const hoje = new Date();
-            const diffTime = novaDataValidadeObj - hoje;
-            const diasParaVencer = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
+            const diasParaVencer = calcularDiasParaVencer(novaDataValidadeObj);
 
             estoque[index] = {
                 codigo: novoCodigo,
@@ -118,86 +154,28 @@ document.addEventListener("DOMContentLoaded", function() {
         }
     }
 
-    // Função para salvar na mesma base de dados
-    function salvarBaseDados() {
-        const fileInput = document.getElementById("fileInput");
-        const file = fileInput.files[0];
-        if (file) {
-            console.log("Salvando base de dados..."); // Debug
-            const reader = new FileReader();
-            reader.onload = function(e) {
-                const data = new Uint8Array(e.target.result);
-                const workbook = XLSX.read(data, { type: 'array' });
-                const sheetName = workbook.SheetNames[0];
-                const worksheet = workbook.Sheets[sheetName];
-
-                // Atualiza a planilha com os dados do estoque
-                const novosDados = estoque.map(item => [
-                    item.codigo,
-                    item.produto,
-                    item.quantidade,
-                    item.dataValidade.toISOString().split('T')[0],
-                    item.diasParaVencer,
-                    item.situacao
-                ]);
-                XLSX.utils.sheet_add_aoa(worksheet, novosDados, { origin: 1 }); // Adiciona os dados a partir da segunda linha
-
-                // Salva o arquivo atualizado
-                const novoArquivo = XLSX.write(workbook, { type: 'array', bookType: 'xlsx' });
-                const blob = new Blob([novoArquivo], { type: 'application/octet-stream' });
-                const link = document.createElement("a");
-                link.href = URL.createObjectURL(blob);
-                link.download = file.name;
-                link.click();
-                console.log("Base de dados salva com sucesso!"); // Debug
-            };
-            reader.readAsArrayBuffer(file);
-        } else {
-            console.log("Nenhum arquivo selecionado."); // Debug
-            alert("Nenhum arquivo selecionado. Importe uma planilha primeiro.");
-        }
-    }
-
-    // Função para calcular a situação
-    function calcularSituacao(diasParaVencer) {
-        if (diasParaVencer === null || isNaN(diasParaVencer)) {
-            return "Data inválida";
-        } else if (diasParaVencer < 0) {
-            return "Vencido";
-        } else if (diasParaVencer === 0) {
-            return "Vence hoje";
-        } else if (diasParaVencer === 10) {
-            return "No prazo para retirada";
-        } else if (diasParaVencer < 10) {
-            return "Prazo estourado";
-        } else {
-            return "Dentro da validade";
-        }
-    }
-
     // Função para importar dados
-    function importarDados() {
+    window.importarDados = function () {
         const fileInput = document.getElementById("fileInput");
         const file = fileInput.files[0];
         if (file) {
-            console.log("Importando planilha..."); // Debug
             const reader = new FileReader();
-            reader.onload = function(e) {
-                console.log("Arquivo carregado com sucesso!"); // Debug
+            reader.onload = function (e) {
                 const data = new Uint8Array(e.target.result);
                 const workbook = XLSX.read(data, { type: 'array' });
                 const sheetName = workbook.SheetNames[0];
                 const worksheet = workbook.Sheets[sheetName];
                 const json = XLSX.utils.sheet_to_json(worksheet, { header: 1 });
 
-                console.log("Dados da planilha:", json); // Debug
-
                 // Converter os dados para o formato esperado
                 estoque = json.slice(1).map(row => {
                     let dataValidade;
+
+                    // Verifica se a data é um número (formato Excel)
                     if (typeof row[3] === 'number') {
                         // Converter data do Excel (número de dias desde 1900-01-01) para objeto Date
-                        dataValidade = new Date((row[3] - 25569) * 86400 * 1000);
+                        const excelEpoch = new Date(1900, 0, 1); // 1 de janeiro de 1900
+                        dataValidade = new Date(excelEpoch.getTime() + (row[3] - 1) * 86400 * 1000);
                     } else if (typeof row[3] === 'string') {
                         // Se a data estiver em formato de texto, tentar converter diretamente
                         dataValidade = new Date(row[3]);
@@ -213,67 +191,43 @@ document.addEventListener("DOMContentLoaded", function() {
                         codigo: row[0],
                         produto: row[1],
                         quantidade: row[2],
-                        dataValidade: dataValidade,
-                        diasParaVencer: diasParaVencer,
+                        dataValidade,
+                        diasParaVencer,
                         situacao: calcularSituacao(diasParaVencer)
                     };
                 });
 
-                console.log("Dados convertidos:", estoque); // Debug
+                console.log("Dados convertidos:", estoque);
                 atualizarTabela();
             };
             reader.readAsArrayBuffer(file);
         } else {
-            console.log("Nenhum arquivo selecionado."); // Debug
-            alert("Nenhum arquivo selecionado. Importe uma planilha primeiro.");
+            alert("Nenhum arquivo selecionado.");
         }
-    }
+    };
 
-    // Função para adicionar manualmente
-    function adicionarManual() {
-        const codigo = prompt("Digite o código do produto:");
-        const produto = prompt("Digite o nome do produto:");
-        const quantidade = prompt("Digite a quantidade:");
-        const dataValidade = prompt("Digite a data de validade (AAAA-MM-DD):");
-
-        if (codigo && produto && quantidade && dataValidade) {
-            const dataValidadeObj = new Date(dataValidade);
-            const hoje = new Date();
-            const diffTime = dataValidadeObj - hoje;
-            const diasParaVencer = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
-
-            estoque.push({
-                codigo,
-                produto,
-                quantidade,
-                dataValidade: dataValidadeObj,
-                diasParaVencer,
-                situacao: calcularSituacao(diasParaVencer)
-            });
-
-            console.log("Item adicionado manualmente:", estoque[estoque.length - 1]); // Debug
-            atualizarTabela();
+    // Função para salvar dados manuais
+    window.salvarDadosManuais = function () {
+        if (estoque.length === 0) {
+            alert("Nenhum dado manual foi inserido.");
+            return;
         }
-    }
+
+        const worksheet = XLSX.utils.json_to_sheet(estoque);
+        const workbook = XLSX.utils.book_new();
+        XLSX.utils.book_append_sheet(workbook, worksheet, "Estoque");
+        XLSX.writeFile(workbook, "estoque_manual.xlsx");
+    };
 
     // Função para limpar dados
-    function limparDados() {
+    window.limparDados = function () {
         if (confirm("Tem certeza que deseja limpar todos os dados? Esta ação não pode ser desfeita.")) {
-            console.log("Limpando dados..."); // Debug
-            estoque = []; // Limpa o array de estoque
-            localStorage.removeItem("estoque"); // Remove os dados do localStorage
-            console.log("Dados limpos:", localStorage.getItem("estoque")); // Debug
-            atualizarTabela(); // Atualiza a tabela para refletir a limpeza
+            estoque = [];
+            localStorage.removeItem("estoque");
+            atualizarTabela();
         }
-    }
+    };
 
     // Atualiza a tabela ao carregar a página
     atualizarTabela();
-
-    // Expõe as funções para o escopo global (para serem chamadas no HTML)
-    window.importarDados = importarDados;
-    window.adicionarManual = adicionarManual;
-    window.salvarBaseDados = salvarBaseDados;
-    window.salvarDadosManuais = salvarDadosManuais;
-    window.limparDados = limparDados;
 });
