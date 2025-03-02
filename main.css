@@ -2,8 +2,12 @@
 body {
     font-family: Arial, sans-serif;
     background-color: #f4f4f4;
+    background-image: url(5134341.jpg);
+    background-position: center;
+    background-size: cover;
+    background-attachment: fixed;
     margin: 0;
-    padding: 0;
+    padding: 20px;
 }
 
 .container {
@@ -11,19 +15,24 @@ body {
     margin: 0 auto;
     padding: 20px;
     background-color: #fff;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.473);
+    border-radius: 10px;
 }
 
 h1 {
     text-align: center;
     color: #333;
+    border-bottom: 1px solid #c5c5c5;
+    padding: 10px;
 }
 
 .botoes {
     display: flex;
     flex-wrap: wrap;
-    gap: 10px;
+    justify-content: space-evenly;
+  
     margin-bottom: 20px;
+
     
 }
 
@@ -158,13 +167,13 @@ h1 {
 #estoqueTable th,
 #estoqueTable td {
     padding: 12px;
-    text-align: left;
-    border-bottom: 1px solid #ddd;
+    text-align: center;
+    border: 1px solid #a2a2a2;
 }
 
 #estoqueTable th {
-    background-color: #007bff; /* Azul */
-    color: #fff;
+    background-color: #1d3752; /* Azul */
+    color: #f1f1f1;
 }
 
 #estoqueTable tr:hover {

@@ -112,11 +112,11 @@ document.addEventListener("DOMContentLoaded", function () {
     // Função para obter a cor da situação
     function getCorSituacao(situacao) {
         switch (situacao) {
-            case "Vencido": return "#ffcccc";
-            case "Vence hoje": return "#ffebcc";
-            case "Prazo estourado": return "#fff3cc";
-            case "No prazo para retirada": return "#ccffcc";
-            case "Dentro da validade": return "#ccf2ff";
+            case "Vencido": return "#EC8305";
+            case "Vence hoje": return "#FF8343";
+            case "Prazo estourado": return "#E78F81";
+            case "No prazo para retirada": return "#FFF4B5";
+            case "Dentro da validade": return "#86D293";
             default: return "#ffffff";
         }
     }
