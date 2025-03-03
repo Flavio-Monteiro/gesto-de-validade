@@ -8,6 +8,19 @@ document.addEventListener("DOMContentLoaded", function () {
     let estoque = JSON.parse(localStorage.getItem("estoque")) || [];
     let itemEditando = null;
 
+    // Função para atualizar as datas e situações
+    window.atualizarDatas = function () {
+        estoque.forEach(item => {
+            if (item.dataValidade) {
+                const dataValidade = new Date(item.dataValidade);
+                item.diasParaVencer = calcularDiasParaVencer(dataValidade);
+                item.situacao = calcularSituacao(item.diasParaVencer);
+            }
+        });
+        atualizarTabela();
+        alert("Datas e situações atualizadas com sucesso!");
+    };
+
     // Função para mostrar o formulário de adição
     window.mostrarFormulario = function () {
         formularioAdicionar.style.display = "block";
@@ -16,7 +29,7 @@ document.addEventListener("DOMContentLoaded", function () {
     // Função para ocultar o formulário de adição
     window.ocultarFormulario = function () {
         formularioAdicionar.style.display = "none";
-        formAdicionar.reset(); // Limpa os campos do formulário
+        formAdicionar.reset();
     };
 
     // Função para mostrar o modal de edição
@@ -33,13 +46,13 @@ document.addEventListener("DOMContentLoaded", function () {
     // Função para ocultar o modal de edição
     window.ocultarModalEditar = function () {
         modalEditar.style.display = "none";
-        formEditar.reset(); // Limpa os campos do formulário
+        formEditar.reset();
         itemEditando = null;
     };
 
     // Função para adicionar item manualmente
     formAdicionar.addEventListener("submit", function (event) {
-        event.preventDefault(); // Evita o recarregamento da página
+        event.preventDefault();
 
         const codigo = document.getElementById("codigo").value;
         const produto = document.getElementById("produto").value;
@@ -59,7 +72,7 @@ document.addEventListener("DOMContentLoaded", function () {
             });
 
             atualizarTabela();
-            ocultarFormulario(); // Oculta o formulário após adicionar o item
+            ocultarFormulario();
         } else {
             alert("Por favor, preencha todos os campos corretamente.");
         }
@@ -67,7 +80,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
     // Função para editar item
     formEditar.addEventListener("submit", function (event) {
-        event.preventDefault(); // Evita o recarregamento da página
+        event.preventDefault();
 
         const codigo = document.getElementById("editarCodigo").value;
         const produto = document.getElementById("editarProduto").value;
@@ -87,7 +100,7 @@ document.addEventListener("DOMContentLoaded", function () {
             };
 
             atualizarTabela();
-            ocultarModalEditar(); // Oculta o modal após editar o item
+            ocultarModalEditar();
         } else {
             alert("Por favor, preencha todos os campos corretamente.");
         }
@@ -96,42 +109,37 @@ document.addEventListener("DOMContentLoaded", function () {
     // Função para atualizar a tabela
     function atualizarTabela() {
         console.log("Atualizando tabela...");
-        estoqueTable.innerHTML = ""; // Limpa a tabela antes de atualizar
+        estoqueTable.innerHTML = "";
         estoque.forEach((item, index) => {
             const row = estoqueTable.insertRow();
             row.insertCell(0).textContent = item.codigo;
             row.insertCell(1).textContent = item.produto;
             row.insertCell(2).textContent = item.quantidade;
 
-            // Verifica se item.dataValidade é um objeto Date válido
             const dataValidade = item.dataValidade instanceof Date ? item.dataValidade : new Date(item.dataValidade);
             row.insertCell(3).textContent = dataValidade ? dataValidade.toISOString().split('T')[0] : "N/A";
 
             row.insertCell(4).textContent = item.diasParaVencer !== null ? item.diasParaVencer : "N/A";
 
-            // Adiciona a situação com cores
             const situacaoCell = row.insertCell(5);
             situacaoCell.textContent = item.situacao;
-            situacaoCell.className = item.situacao.replace(/ /g, "-"); // Substitui espaços por hífens
+            situacaoCell.className = item.situacao.replace(/ /g, "-");
             situacaoCell.style.backgroundColor = getCorSituacao(item.situacao);
 
-            // Adiciona botão de editar
             const editarCell = row.insertCell(6);
             const editarBtn = document.createElement("button");
             editarBtn.textContent = "Editar";
             editarBtn.addEventListener("click", () => mostrarModalEditar(index));
             editarCell.appendChild(editarBtn);
 
-            // Adiciona botão de remover
             const removerCell = row.insertCell(7);
             const removerBtn = document.createElement("button");
             removerBtn.textContent = "Remover";
-            removerBtn.classList.add("btn-remover"); // Adiciona classe para estilização
+            removerBtn.classList.add("btn-remover");
             removerBtn.addEventListener("click", () => removerItem(index));
             removerCell.appendChild(removerBtn);
         });
 
-        // Salva os dados no localStorage
         localStorage.setItem("estoque", JSON.stringify(estoque));
         console.log("Tabela atualizada e dados salvos no localStorage.");
     }
@@ -164,7 +172,6 @@ document.addEventListener("DOMContentLoaded", function () {
             case "Vencido": return "#EC8305";
             case "Vence hoje": return "#FF8343";
             case "Prazo estourado": return "#E78F81";
-            case "No prazo para retirada": return "#FFF4B5";
             case "Dentro da validade": return "#86D293";
             default: return "#ffffff";
         }
@@ -191,17 +198,13 @@ document.addEventListener("DOMContentLoaded", function () {
                 const worksheet = workbook.Sheets[sheetName];
                 const json = XLSX.utils.sheet_to_json(worksheet, { header: 1 });
 
-                // Converter os dados para o formato esperado
                 estoque = json.slice(1).map(row => {
                     let dataValidade;
 
-                    // Verifica se a data é um número (formato Excel)
                     if (typeof row[3] === 'number') {
-                        // Converter data do Excel (número de dias desde 1900-01-01) para objeto Date
-                        const excelEpoch = new Date(1900, 0, 1); // 1 de janeiro de 1900
+                        const excelEpoch = new Date(1900, 0, 1);
                         dataValidade = new Date(excelEpoch.getTime() + (row[3] - 1) * 86400 * 1000);
                     } else if (typeof row[3] === 'string') {
-                        // Se a data estiver em formato de texto, tentar converter diretamente
                         dataValidade = new Date(row[3]);
                     } else {
                         dataValidade = null;
@@ -255,26 +258,23 @@ document.addEventListener("DOMContentLoaded", function () {
                 const sheetName = workbook.SheetNames[0];
                 const worksheet = workbook.Sheets[sheetName];
 
-                // Limpa a planilha, exceto o cabeçalho
-                XLSX.utils.sheet_add_aoa(worksheet, [], { origin: 1 }); // Remove todas as linhas a partir da segunda
+                XLSX.utils.sheet_add_aoa(worksheet, [], { origin: 1 });
 
-                // Adiciona os dados do estoque na planilha
                 const novosDados = estoque.map(item => [
                     item.codigo,
                     item.produto,
                     item.quantidade,
-                    item.dataValidade.toISOString().split('T')[0], // Formata a data como AAAA-MM-DD
+                    item.dataValidade.toISOString().split('T')[0],
                     item.diasParaVencer,
                     item.situacao
                 ]);
-                XLSX.utils.sheet_add_aoa(worksheet, novosDados, { origin: 1 }); // Adiciona os dados a partir da segunda linha
+                XLSX.utils.sheet_add_aoa(worksheet, novosDados, { origin: 1 });
 
-                // Salva o arquivo atualizado
                 const novoArquivo = XLSX.write(workbook, { type: 'array', bookType: 'xlsx' });
                 const blob = new Blob([novoArquivo], { type: 'application/octet-stream' });
                 const link = document.createElement("a");
                 link.href = URL.createObjectURL(blob);
-                link.download = file.name; // Usa o mesmo nome do arquivo original
+                link.download = file.name;
                 link.click();
                 console.log("Base de dados salva com sucesso!");
             };
