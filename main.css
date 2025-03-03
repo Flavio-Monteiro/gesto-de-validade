@@ -242,3 +242,8 @@ h1 {
 #fileInput {
   padding: 10px;
 }
+
+details  {
+   color: rgb(36, 36, 36);
+   color: #0056b3;
+}

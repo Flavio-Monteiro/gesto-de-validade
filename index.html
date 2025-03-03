@@ -1,13 +1,267 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
+
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Gestor de Validade</title>
-    <link rel="stylesheet" href="main.css">
+    <link rel="stylesheet" href="main.css" />
 </head>
+
 <body>
     <div class="container">
+        <!-- Documentação em uma tag <details> -->
+        <details>
+            <summary>
+                Documentação: Como usar o Gestor de Validade em Estoque
+            </summary>
+            <div class="documentacao">
+                <h2>1. Estrutura do Projeto</h2>
+                <p>O projeto é composto por três arquivos principais:</p>
+                <ul>
+                    <li>
+                        <strong>index.html</strong>: Contém a estrutura da página web.
+                    </li>
+                    <li>
+                        <strong>main.css</strong>: Define o estilo visual da aplicação.
+                    </li>
+                    <li>
+                        <strong>main.js</strong>: Implementa a lógica de funcionamento da
+                        aplicação.
+                    </li>
+                </ul>
+
+                <h2>2. Funcionalidades Principais</h2>
+                <p>A aplicação oferece as seguintes funcionalidades:</p>
+                <ul>
+                    <li>
+                        <strong>Adicionar itens manualmente</strong>: Permite inserir
+                        novos produtos no estoque.
+                    </li>
+                    <li>
+                        <strong>Editar itens</strong>: Permite modificar os dados de um
+                        produto existente.
+                    </li>
+                    <li>
+                        <strong>Remover itens</strong>: Remove um produto do estoque.
+                    </li>
+                    <li>
+                        <strong>Importar dados de uma planilha</strong>: Carrega dados de
+                        um arquivo Excel (<code>.xlsx</code> ou <code>.xls</code>).
+                    </li>
+                    <li>
+                        <strong>Salvar dados manualmente</strong>: Exporta os dados do
+                        estoque para um arquivo Excel.
+                    </li>
+                    <li>
+                        <strong>Salvar na mesma base de dados</strong>: Atualiza o arquivo
+                        Excel importado com os dados atuais.
+                    </li>
+                    <li>
+                        <strong>Limpar dados</strong>: Remove todos os itens do estoque.
+                    </li>
+                </ul>
+
+                <h2>3. Passo a Passo para Utilização</h2>
+                <h3>3.1. Adicionar Itens Manualmente</h3>
+                <ol>
+                    <li>Clique no botão <strong>"Adicionar Manualmente"</strong>.</li>
+                    <li>
+                        Preencha os campos do formulário:
+                        <ul>
+                            <li><strong>Código</strong>: Código do produto.</li>
+                            <li><strong>Produto</strong>: Nome do produto.</li>
+                            <li><strong>Quantidade</strong>: Quantidade em estoque.</li>
+                            <li>
+                                <strong>Data de Validade</strong>: Data de validade do
+                                produto.
+                            </li>
+                        </ul>
+                    </li>
+                    <li>
+                        Clique em <strong>"Adicionar"</strong> para salvar o item ou
+                        <strong>"Cancelar"</strong> para fechar o formulário sem salvar.
+                    </li>
+                </ol>
+
+                <h3>3.2. Editar Itens</h3>
+                <ol>
+                    <li>Na tabela de estoque, localize o item que deseja editar.</li>
+                    <li>Clique no botão <strong>"Editar"</strong> ao lado do item.</li>
+                    <li>
+                        No modal que abrir, modifique os campos desejados:
+                        <ul>
+                            <li>
+                                <strong>Código</strong>, <strong>Produto</strong>,
+                                <strong>Quantidade</strong>,
+                                <strong>Data de Validade</strong>.
+                            </li>
+                        </ul>
+                    </li>
+                    <li>
+                        Clique em <strong>"Salvar"</strong> para confirmar as alterações
+                        ou <strong>"Cancelar"</strong> para descartá-las.
+                    </li>
+                </ol>
+
+                <h3>3.3. Remover Itens</h3>
+                <ol>
+                    <li>Na tabela de estoque, localize o item que deseja remover.</li>
+                    <li>Clique no botão <strong>"Remover"</strong> ao lado do item.</li>
+                    <li>Confirme a remoção no alerta que aparecer.</li>
+                </ol>
+
+                <h3>3.4. Importar Dados de uma Planilha</h3>
+                <ol>
+                    <li>
+                        Clique no botão <strong>"Escolher Arquivo"</strong> e selecione um
+                        arquivo Excel (<code>.xlsx</code> ou <code>.xls</code>).
+                    </li>
+                    <li>Clique no botão <strong>"Importar Planilha"</strong>.</li>
+                    <li>Os dados da planilha serão carregados na tabela de estoque.</li>
+                </ol>
+
+                <h3>3.5. Salvar Dados Manualmente</h3>
+                <ol>
+                    <li>Clique no botão <strong>"Salvar Dados Manuais"</strong>.</li>
+                    <li>
+                        Um arquivo Excel chamado <strong>estoque_manual.xlsx</strong> será
+                        baixado com os dados atuais do estoque.
+                    </li>
+                </ol>
+
+                <h3>3.6. Salvar na Mesma Base de Dados</h3>
+                <ol>
+                    <li>Importe uma planilha (se ainda não o fez).</li>
+                    <li>Clique no botão <strong>"Salvar Base de Dados"</strong>.</li>
+                    <li>
+                        O arquivo Excel original será atualizado com os dados atuais do
+                        estoque e será baixado automaticamente.
+                    </li>
+                </ol>
+
+                <h3>3.7. Limpar Dados</h3>
+                <ol>
+                    <li>Clique no botão <strong>"Limpar Dados"</strong>.</li>
+                    <li>Confirme a ação no alerta que aparecer.</li>
+                    <li>Todos os itens do estoque serão removidos.</li>
+                </ol>
+
+                <h2>4. Estrutura da Tabela de Estoque</h2>
+                <p>A tabela exibe as seguintes colunas:</p>
+                <ul>
+                    <li><strong>Código</strong>: Código do produto.</li>
+                    <li><strong>Produto</strong>: Nome do produto.</li>
+                    <li><strong>Quantidade</strong>: Quantidade em estoque.</li>
+                    <li>
+                        <strong>Data de Validade</strong>: Data de validade do produto.
+                    </li>
+                    <li>
+                        <strong>Dias para Vencer</strong>: Quantidade de dias restantes
+                        até a data de validade.
+                    </li>
+                    <li>
+                        <strong>Situação</strong>: Estado do produto com base na data de
+                        validade (ex: "Dentro da validade", "Vencido").
+                    </li>
+                    <li><strong>Editar</strong>: Botão para editar o item.</li>
+                    <li><strong>Remover</strong>: Botão para remover o item.</li>
+                </ul>
+
+                <h2>5. Códigos de Situação e Cores</h2>
+                <p>
+                    A situação do produto é determinada com base nos dias restantes para
+                    a data de validade:
+                </p>
+                <ul>
+                    <li><strong>Vencido</strong>: Produto já venceu (cor laranja).</li>
+                    <li>
+                        <strong>Vence hoje</strong>: Produto vence no dia atual (cor
+                        vermelha).
+                    </li>
+                    <li>
+                        <strong>Prazo estourado</strong>: Produto vence em até 10 dias
+                        (cor rosa).
+                    </li>
+                    <li>
+                        <strong>Dentro da validade</strong>: Produto está dentro do prazo
+                        (cor verde).
+                    </li>
+                </ul>
+
+                <h2>6. Como Funciona o Código</h2>
+                <h3>6.1. Armazenamento de Dados</h3>
+                <p>
+                    Os dados do estoque são armazenados no
+                    <strong>localStorage</strong> do navegador, permitindo que as
+                    informações persistam mesmo após o recarregamento da página.
+                </p>
+
+                <h3>6.2. Atualização da Tabela</h3>
+                <p>
+                    A função <strong>atualizarTabela()</strong> é responsável por
+                    preencher a tabela com os dados do estoque e aplicar as cores de
+                    situação.
+                </p>
+
+                <h3>6.3. Cálculo de Dias para Vencer</h3>
+                <p>
+                    A função <strong>calcularDiasParaVencer()</strong> calcula a
+                    diferença entre a data de validade e a data atual.
+                </p>
+
+                <h3>6.4. Importação e Exportação de Dados</h3>
+                <p>
+                    A biblioteca <strong>XLSX</strong> é utilizada para ler e escrever
+                    arquivos Excel.
+                </p>
+
+                <h2>7. Requisitos para Execução</h2>
+                <ul>
+                    <li>Navegador moderno (Chrome, Firefox, Edge, etc.).</li>
+                    <li>
+                        Conexão com a internet (para carregar a biblioteca
+                        <strong>XLSX</strong>).
+                    </li>
+                </ul>
+
+                <h2>8. Exemplo de Uso</h2>
+                <ol>
+                    <li>Abra o arquivo <strong>index.html</strong> no navegador.</li>
+                    <li>Adicione alguns itens manualmente ou importe uma planilha.</li>
+                    <li>Edite ou remova itens conforme necessário.</li>
+                    <li>
+                        Exporte os dados para um arquivo Excel ou atualize a planilha
+                        original.
+                    </li>
+                </ol>
+
+                <h2>9. Dicas</h2>
+                <ul>
+                    <li>
+                        Certifique-se de que as datas de validade estejam no formato
+                        <strong>AAAA-MM-DD</strong> ao importar uma planilha.
+                    </li>
+                    <li>
+                        Utilize o botão <strong>"Limpar Dados"</strong> com cuidado, pois
+                        a ação não pode ser desfeita.
+                    </li>
+                </ul>
+
+                <h2>10. Conclusão</h2>
+                <p>
+                    O <strong>Gestor de Validade em Estoque</strong> é uma ferramenta
+                    simples e eficaz para gerenciar produtos com base em suas datas de
+                    validade. Com funcionalidades de adição, edição, remoção e
+                    importação/exportação de dados, ele é ideal para pequenos negócios
+                    ou uso pessoal.
+                </p>
+                <p>
+                    Se tiver dúvidas ou problemas, consulte o código-fonte ou entre em
+                    contato com o desenvolvedor. 😊
+                </p>
+            </div>
+        </details>
         <h1>Gestor de Validade em Estoque</h1>
         <div class="botoes">
             <input type="file" id="fileInput" accept=".xlsx, .xls" />
@@ -19,20 +273,20 @@
         </div>
 
         <!-- Formulário para adicionar dados manualmente (inicialmente oculto) -->
-        <div id="formularioAdicionar" style="display: none;">
+        <div id="formularioAdicionar" style="display: none">
             <h2>Adicionar Item Manualmente</h2>
             <form id="formAdicionar">
                 <label for="codigo">Código:</label>
-                <input type="text" id="codigo" required><br>
+                <input type="text" id="codigo" required /><br />
 
                 <label for="produto">Produto:</label>
-                <input type="text" id="produto" required><br>
+                <input type="text" id="produto" required /><br />
 
                 <label for="quantidade">Quantidade:</label>
-                <input type="number" id="quantidade" required><br>
+                <input type="number" id="quantidade" required /><br />
 
                 <label for="dataValidade">Data de Validade:</label>
-                <input type="date" id="dataValidade" required><br>
+                <input type="date" id="dataValidade" required /><br />
 
                 <button type="submit">Adicionar</button>
                 <button type="button" onclick="ocultarFormulario()">Cancelar</button>
@@ -40,20 +294,20 @@
         </div>
 
         <!-- Modal de Edição (inicialmente oculto) -->
-        <div id="modalEditar" style="display: none;">
+        <div id="modalEditar" style="display: none">
             <h2>Editar Item</h2>
             <form id="formEditar">
                 <label for="editarCodigo">Código:</label>
-                <input type="text" id="editarCodigo" required><br>
+                <input type="text" id="editarCodigo" required /><br />
 
                 <label for="editarProduto">Produto:</label>
-                <input type="text" id="editarProduto" required><br>
+                <input type="text" id="editarProduto" required /><br />
 
                 <label for="editarQuantidade">Quantidade:</label>
-                <input type="number" id="editarQuantidade" required><br>
+                <input type="number" id="editarQuantidade" required /><br />
 
                 <label for="editarDataValidade">Data de Validade:</label>
-                <input type="date" id="editarDataValidade" required><br>
+                <input type="date" id="editarDataValidade" required /><br />
 
                 <button type="submit">Salvar</button>
                 <button type="button" onclick="ocultarModalEditar()">Cancelar</button>
@@ -84,4 +338,5 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.17.0/xlsx.full.min.js"></script>
     <script src="main.js"></script>
 </body>
+
 </html>
