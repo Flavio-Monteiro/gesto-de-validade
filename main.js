@@ -3,17 +3,38 @@ document.addEventListener("DOMContentLoaded", function () {
     const estoqueTable = document.getElementById("estoqueTable").getElementsByTagName('tbody')[0];
     const formularioAdicionar = document.getElementById("formularioAdicionar");
     const formAdicionar = document.getElementById("formAdicionar");
+    const modalEditar = document.getElementById("modalEditar");
+    const formEditar = document.getElementById("formEditar");
     let estoque = JSON.parse(localStorage.getItem("estoque")) || [];
+    let itemEditando = null;
 
-    // Função para mostrar o formulário
+    // Função para mostrar o formulário de adição
     window.mostrarFormulario = function () {
         formularioAdicionar.style.display = "block";
     };
 
-    // Função para ocultar o formulário
+    // Função para ocultar o formulário de adição
     window.ocultarFormulario = function () {
         formularioAdicionar.style.display = "none";
         formAdicionar.reset(); // Limpa os campos do formulário
+    };
+
+    // Função para mostrar o modal de edição
+    window.mostrarModalEditar = function (index) {
+        itemEditando = index;
+        const item = estoque[index];
+        document.getElementById("editarCodigo").value = item.codigo;
+        document.getElementById("editarProduto").value = item.produto;
+        document.getElementById("editarQuantidade").value = item.quantidade;
+        document.getElementById("editarDataValidade").value = item.dataValidade.toISOString().split('T')[0];
+        modalEditar.style.display = "block";
+    };
+
+    // Função para ocultar o modal de edição
+    window.ocultarModalEditar = function () {
+        modalEditar.style.display = "none";
+        formEditar.reset(); // Limpa os campos do formulário
+        itemEditando = null;
     };
 
     // Função para adicionar item manualmente
@@ -39,6 +60,34 @@ document.addEventListener("DOMContentLoaded", function () {
 
             atualizarTabela();
             ocultarFormulario(); // Oculta o formulário após adicionar o item
+        } else {
+            alert("Por favor, preencha todos os campos corretamente.");
+        }
+    });
+
+    // Função para editar item
+    formEditar.addEventListener("submit", function (event) {
+        event.preventDefault(); // Evita o recarregamento da página
+
+        const codigo = document.getElementById("editarCodigo").value;
+        const produto = document.getElementById("editarProduto").value;
+        const quantidade = parseInt(document.getElementById("editarQuantidade").value);
+        const dataValidade = new Date(document.getElementById("editarDataValidade").value);
+
+        if (codigo && produto && !isNaN(quantidade) && dataValidade instanceof Date && !isNaN(dataValidade)) {
+            const diasParaVencer = calcularDiasParaVencer(dataValidade);
+
+            estoque[itemEditando] = {
+                codigo,
+                produto,
+                quantidade,
+                dataValidade,
+                diasParaVencer,
+                situacao: calcularSituacao(diasParaVencer)
+            };
+
+            atualizarTabela();
+            ocultarModalEditar(); // Oculta o modal após editar o item
         } else {
             alert("Por favor, preencha todos os campos corretamente.");
         }
@@ -70,7 +119,7 @@ document.addEventListener("DOMContentLoaded", function () {
             const editarCell = row.insertCell(6);
             const editarBtn = document.createElement("button");
             editarBtn.textContent = "Editar";
-            editarBtn.addEventListener("click", () => editarItem(index));
+            editarBtn.addEventListener("click", () => mostrarModalEditar(index));
             editarCell.appendChild(editarBtn);
 
             // Adiciona botão de remover
@@ -125,31 +174,6 @@ document.addEventListener("DOMContentLoaded", function () {
     function removerItem(index) {
         if (confirm("Tem certeza que deseja remover este produto?")) {
             estoque.splice(index, 1);
-            atualizarTabela();
-        }
-    }
-
-    // Função para editar um item
-    function editarItem(index) {
-        const item = estoque[index];
-        const novoCodigo = prompt("Editar código:", item.codigo);
-        const novoProduto = prompt("Editar produto:", item.produto);
-        const novaQuantidade = prompt("Editar quantidade:", item.quantidade);
-        const novaDataValidade = prompt("Editar data de validade (AAAA-MM-DD):", item.dataValidade ? item.dataValidade.toISOString().split('T')[0] : "");
-
-        if (novoCodigo && novoProduto && novaQuantidade && novaDataValidade) {
-            const novaDataValidadeObj = new Date(novaDataValidade);
-            const diasParaVencer = calcularDiasParaVencer(novaDataValidadeObj);
-
-            estoque[index] = {
-                codigo: novoCodigo,
-                produto: novoProduto,
-                quantidade: novaQuantidade,
-                dataValidade: novaDataValidadeObj,
-                diasParaVencer,
-                situacao: calcularSituacao(diasParaVencer)
-            };
-
             atualizarTabela();
         }
     }
@@ -217,6 +241,47 @@ document.addEventListener("DOMContentLoaded", function () {
         const workbook = XLSX.utils.book_new();
         XLSX.utils.book_append_sheet(workbook, worksheet, "Estoque");
         XLSX.writeFile(workbook, "estoque_manual.xlsx");
+    };
+
+    // Função para salvar na mesma base de dados
+    window.salvarBaseDados = function () {
+        const fileInput = document.getElementById("fileInput");
+        const file = fileInput.files[0];
+        if (file) {
+            const reader = new FileReader();
+            reader.onload = function (e) {
+                const data = new Uint8Array(e.target.result);
+                const workbook = XLSX.read(data, { type: 'array' });
+                const sheetName = workbook.SheetNames[0];
+                const worksheet = workbook.Sheets[sheetName];
+
+                // Limpa a planilha, exceto o cabeçalho
+                XLSX.utils.sheet_add_aoa(worksheet, [], { origin: 1 }); // Remove todas as linhas a partir da segunda
+
+                // Adiciona os dados do estoque na planilha
+                const novosDados = estoque.map(item => [
+                    item.codigo,
+                    item.produto,
+                    item.quantidade,
+                    item.dataValidade.toISOString().split('T')[0], // Formata a data como AAAA-MM-DD
+                    item.diasParaVencer,
+                    item.situacao
+                ]);
+                XLSX.utils.sheet_add_aoa(worksheet, novosDados, { origin: 1 }); // Adiciona os dados a partir da segunda linha
+
+                // Salva o arquivo atualizado
+                const novoArquivo = XLSX.write(workbook, { type: 'array', bookType: 'xlsx' });
+                const blob = new Blob([novoArquivo], { type: 'application/octet-stream' });
+                const link = document.createElement("a");
+                link.href = URL.createObjectURL(blob);
+                link.download = file.name; // Usa o mesmo nome do arquivo original
+                link.click();
+                console.log("Base de dados salva com sucesso!");
+            };
+            reader.readAsArrayBuffer(file);
+        } else {
+            alert("Nenhum arquivo selecionado. Importe uma planilha primeiro.");
+        }
     };
 
     // Função para limpar dados
