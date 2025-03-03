@@ -26,14 +26,15 @@ h1 {
     padding: 10px;
 }
 
+/* Estilos dos botões */
 .botoes {
     display: flex;
     flex-wrap: wrap;
     justify-content: space-evenly;
+    gap: 10px; /* Espaçamento entre os botões */
     margin-bottom: 20px;
 }
 
-/* Estilos dos botões com cores semânticas */
 .botoes button {
     padding: 10px 20px;
     color: #fff;
@@ -41,6 +42,7 @@ h1 {
     border-radius: 5px;
     cursor: pointer;
     transition: background-color 0.3s ease;
+    font-size: 14px;
 }
 
 /* Botão de Importar Planilha (Azul - Ação de carregar dados) */
@@ -77,6 +79,15 @@ h1 {
 
 .botoes button:nth-child(5):hover {
     background-color: #1aa179; /* Verde claro mais escuro */
+}
+
+/* Botão de Atualizar Datas (Roxo - Ação de atualização) */
+.botoes button:nth-child(6) {
+    background-color: #6f42c1; /* Roxo */
+}
+
+.botoes button:nth-child(6):hover {
+    background-color: #5a3d8e; /* Roxo mais escuro */
 }
 
 /* Botão de Limpar Dados (Vermelho - Ação destrutiva) */
@@ -239,11 +250,11 @@ h1 {
     }
 }
 
+/* Estilo para o input de arquivo */
 #fileInput {
-  padding: 10px;
-}
-
-details  {
-   color: rgb(36, 36, 36);
-   color: #0056b3;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    background-color: #fff;
+    font-size: 14px;
 }
