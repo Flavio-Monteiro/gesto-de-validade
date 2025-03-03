@@ -1,229 +1,155 @@
-Sistema de Gerenciamento de Estoque
-Este é um sistema web para gerenciamento de estoque, desenvolvido para ajudar pequenos negócios a controlar produtos, validades e situações de estoque de forma simples e eficiente.
+Documentação: Gestor de Validade em Estoque
+Este documento explica passo a passo como utilizar o Gestor de Validade em Estoque, uma aplicação web que permite gerenciar produtos em estoque, incluindo a adição, edição, remoção e visualização de itens com base em suas datas de validade.
 
-Funcionalidades
-Cadastro de Produtos:
+1. Estrutura do Projeto
+O projeto é composto por três arquivos principais:
 
-Adicionar produtos manualmente com código, nome, quantidade e data de validade.
+index.html: Contém a estrutura da página web.
 
-Atualizar ou remover produtos existentes.
+main.css: Define o estilo visual da aplicação.
 
-Importação de Dados:
+main.js: Implementa a lógica de funcionamento da aplicação.
 
-Importar dados de uma planilha Excel (formato .xlsx ou .xls).
+2. Funcionalidades Principais
+A aplicação oferece as seguintes funcionalidades:
 
-Os dados são convertidos e exibidos na tabela de estoque.
+Adicionar itens manualmente: Permite inserir novos produtos no estoque.
 
-Cálculo Automático:
+Editar itens: Permite modificar os dados de um produto existente.
 
-Calcula os dias restantes para a validade de cada produto.
+Remover itens: Remove um produto do estoque.
 
-Define a situação do produto com base nos dias para vencer:
+Importar dados de uma planilha: Carrega dados de um arquivo Excel (.xlsx ou .xls).
 
-Vencido: Dias para vencer < 0.
+Salvar dados manualmente: Exporta os dados do estoque para um arquivo Excel.
 
-Vence hoje: Dias para vencer = 0.
+Salvar na mesma base de dados: Atualiza o arquivo Excel importado com os dados atuais.
 
-Prazo estourado: Dias para vencer <= 10.
+Limpar dados: Remove todos os itens do estoque.
 
-Dentro da validade: Dias para vencer > 10.
+3. Passo a Passo para Utilização
+3.1. Adicionar Itens Manualmente
+Clique no botão "Adicionar Manualmente".
 
-Interface Responsiva:
+Preencha os campos do formulário:
 
-Funciona em dispositivos móveis e desktops.
+Código: Código do produto.
 
-Design simples e intuitivo.
+Produto: Nome do produto.
 
-Persistência de Dados:
+Quantidade: Quantidade em estoque.
 
-Os dados são salvos no localStorage do navegador, permitindo que as informações sejam mantidas mesmo após o fechamento da página.
+Data de Validade: Data de validade do produto.
 
-Exportação de Dados:
+Clique em "Adicionar" para salvar o item ou "Cancelar" para fechar o formulário sem salvar.
 
-Exportar os dados manuais para um arquivo Excel (.xlsx).
+3.2. Editar Itens
+Na tabela de estoque, localize o item que deseja editar.
 
-Tecnologias Utilizadas
-Frontend:
+Clique no botão "Editar" ao lado do item.
 
-HTML5
+No modal que abrir, modifique os campos desejados:
 
-CSS3
+Código, Produto, Quantidade, Data de Validade.
 
-JavaScript (Vanilla JS)
+Clique em "Salvar" para confirmar as alterações ou "Cancelar" para descartá-las.
 
-Bibliotecas:
+3.3. Remover Itens
+Na tabela de estoque, localize o item que deseja remover.
 
-SheetJS (xlsx): Para manipulação de arquivos Excel.
+Clique no botão "Remover" ao lado do item.
 
-Hospedagem:
+Confirme a remoção no alerta que aparecer.
 
-Vercel: Para deploy do projeto.
+3.4. Importar Dados de uma Planilha
+Clique no botão "Escolher Arquivo" e selecione um arquivo Excel (.xlsx ou .xls).
 
-Como Usar
-1. Executando Localmente
-Clone o repositório:
+Clique no botão "Importar Planilha".
 
-bash
-Copy
-git clone https://github.com/seu-usuario/sistema-estoque.git
-cd sistema-estoque
-Abra o projeto:
+Os dados da planilha serão carregados na tabela de estoque.
 
+3.5. Salvar Dados Manualmente
+Clique no botão "Salvar Dados Manuais".
+
+Um arquivo Excel chamado estoque_manual.xlsx será baixado com os dados atuais do estoque.
+
+3.6. Salvar na Mesma Base de Dados
+Importe uma planilha (se ainda não o fez).
+
+Clique no botão "Salvar Base de Dados".
+
+O arquivo Excel original será atualizado com os dados atuais do estoque e será baixado automaticamente.
+
+3.7. Limpar Dados
+Clique no botão "Limpar Dados".
+
+Confirme a ação no alerta que aparecer.
+
+Todos os itens do estoque serão removidos.
+
+4. Estrutura da Tabela de Estoque
+A tabela exibe as seguintes colunas:
+
+Código: Código do produto.
+
+Produto: Nome do produto.
+
+Quantidade: Quantidade em estoque.
+
+Data de Validade: Data de validade do produto.
+
+Dias para Vencer: Quantidade de dias restantes até a data de validade.
+
+Situação: Estado do produto com base na data de validade (ex: "Dentro da validade", "Vencido").
+
+Editar: Botão para editar o item.
+
+Remover: Botão para remover o item.
+
+5. Códigos de Situação e Cores
+A situação do produto é determinada com base nos dias restantes para a data de validade:
+
+Vencido: Produto já venceu (cor laranja).
+
+Vence hoje: Produto vence no dia atual (cor vermelha).
+
+Prazo estourado: Produto vence em até 10 dias (cor rosa).
+
+Dentro da validade: Produto está dentro do prazo (cor verde).
+
+6. Como Funciona o Código
+6.1. Armazenamento de Dados
+Os dados do estoque são armazenados no localStorage do navegador, permitindo que as informações persistam mesmo após o recarregamento da página.
+
+6.2. Atualização da Tabela
+A função atualizarTabela() é responsável por preencher a tabela com os dados do estoque e aplicar as cores de situação.
+
+6.3. Cálculo de Dias para Vencer
+A função calcularDiasParaVencer() calcula a diferença entre a data de validade e a data atual.
+
+6.4. Importação e Exportação de Dados
+A biblioteca XLSX é utilizada para ler e escrever arquivos Excel.
+
+7. Requisitos para Execução
+Navegador moderno (Chrome, Firefox, Edge, etc.).
+
+Conexão com a internet (para carregar a biblioteca XLSX).
+
+8. Exemplo de Uso
 Abra o arquivo index.html no navegador.
 
-Usando o Sistema:
+Adicione alguns itens manualmente ou importe uma planilha.
 
-Adicione produtos manualmente ou importe uma planilha Excel.
+Edite ou remova itens conforme necessário.
 
-Os dados serão exibidos na tabela e salvos automaticamente no localStorage.
+Exporte os dados para um arquivo Excel ou atualize a planilha original.
 
-2. Fazendo Deploy no Vercel
-Instale o Vercel CLI:
+9. Dicas
+Certifique-se de que as datas de validade estejam no formato AAAA-MM-DD ao importar uma planilha.
 
-bash
-Copy
-npm install -g vercel
-Faça login na Vercel:
+Utilize o botão "Limpar Dados" com cuidado, pois a ação não pode ser desfeita.
 
-bash
-Copy
-vercel login
-Implante o projeto:
+10. Conclusão
+O Gestor de Validade em Estoque é uma ferramenta simples e eficaz para gerenciar produtos com base em suas datas de validade. Com funcionalidades de adição, edição, remoção e importação/exportação de dados, ele é ideal para pequenos negócios ou uso pessoal.
 
-bash
-Copy
-vercel
-Acesse o link gerado:
-
-Após o deploy, o Vercel fornecerá um link para acessar o sistema online.
-
-Estrutura do Projeto
-Copy
-sistema-estoque/
-│
-├── index.html          # Página principal do sistema
-├── main.css            # Estilos CSS
-├── main.js             # Lógica principal do sistema
-├── README.md           # Documentação do projeto
-└── assets/             # Pasta para arquivos estáticos (opcional)
-Como Funciona o Código
-1. Importação de Dados
-O sistema usa a biblioteca SheetJS para ler arquivos Excel.
-
-Os dados são convertidos em um array de objetos e exibidos na tabela.
-
-javascript
-Copy
-function importarDados() {
-    const fileInput = document.getElementById("fileInput");
-    const file = fileInput.files[0];
-    if (file) {
-        const reader = new FileReader();
-        reader.onload = function (e) {
-            const data = new Uint8Array(e.target.result);
-            const workbook = XLSX.read(data, { type: 'array' });
-            const sheetName = workbook.SheetNames[0];
-            const worksheet = workbook.Sheets[sheetName];
-            const json = XLSX.utils.sheet_to_json(worksheet, { header: 1 });
-
-            // Processar os dados...
-        };
-        reader.readAsArrayBuffer(file);
-    }
-}
-2. Cálculo de Dias para Vencer
-A função calcularDiasParaVencer calcula a diferença entre a data de validade e a data atual.
-
-javascript
-Copy
-function calcularDiasParaVencer(dataValidade) {
-    const hoje = new Date();
-    const diffTime = dataValidade - hoje;
-    return Math.ceil(diffTime / (1000 * 60 * 60 * 24));
-}
-3. Persistência de Dados
-Os dados são salvos no localStorage e recuperados ao carregar a página.
-
-javascript
-Copy
-function salvarNoLocalStorage() {
-    localStorage.setItem("estoque", JSON.stringify(estoque));
-}
-
-function carregarDoLocalStorage() {
-    estoque = JSON.parse(localStorage.getItem("estoque")) || [];
-}
-Personalização
-1. Adicionar Novas Funcionalidades
-Autenticação de Usuários: Adicione um sistema de login para proteger o acesso.
-
-Relatórios em PDF: Use bibliotecas como jsPDF para gerar relatórios.
-
-Notificações: Envie alertas por e-mail ou WhatsApp quando produtos estiverem perto de vencer.
-
-2. Alterar Cores e Estilos
-Edite o arquivo main.css para personalizar o design do sistema.
-
-css
-Copy
-/* Exemplo de personalização */
-body {
-    background-color: #f0f0f0;
-    font-family: 'Arial', sans-serif;
-}
-
-.botoes button {
-    background-color: #007bff;
-    color: #fff;
-    border-radius: 5px;
-}
-Limitações
-Persistência Local:
-
-Os dados são salvos apenas no navegador do usuário. Se ele limpar o cache ou trocar de dispositivo, os dados serão perdidos.
-
-Solução: Implementar um backend para armazenar os dados em um banco de dados.
-
-Segurança:
-
-O sistema não possui autenticação, então qualquer pessoa com acesso ao link pode editar os dados.
-
-Solução: Adicionar um sistema de login.
-
-Escalabilidade:
-
-O sistema foi projetado para pequenos estoques. Para grandes volumes de dados, pode ser necessário otimizar o código.
-
-Contribuição
-Se você quiser contribuir para o projeto, siga os passos abaixo:
-
-Faça um fork do repositório.
-
-Crie uma branch para sua feature:
-
-bash
-Copy
-git checkout -b minha-feature
-Commit suas alterações:
-
-bash
-Copy
-git commit -m "Adicionando nova funcionalidade"
-Envie para o repositório remoto:
-
-bash
-Copy
-git push origin minha-feature
-Abra um pull request.
-
-Licença
-Este projeto está licenciado sob a licença MIT. Veja o arquivo LICENSE para mais detalhes.
-
-Contato
-Se tiver dúvidas ou sugestões, entre em contato:
-
-Nome: [Seu Nome]
-
-E-mail: [seu-email@exemplo.com]
-
-GitHub: [https://github.com/seu-usuario]
+Se tiver dúvidas ou problemas, consulte o código-fonte ou entre em contato com o desenvolvedor. 😊
