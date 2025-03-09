@@ -5,7 +5,14 @@ document.addEventListener("DOMContentLoaded", function () {
     const formAdicionar = document.getElementById("formAdicionar");
     const modalEditar = document.getElementById("modalEditar");
     const formEditar = document.getElementById("formEditar");
-    let estoque = JSON.parse(localStorage.getItem("estoque")) || [];
+
+    let estoque = (JSON.parse(localStorage.getItem("estoque")) || []).map(item => {
+        return {
+            ...item,
+            dataValidade: new Date(item.dataValidade) // Convertendo a string de volta para Date
+        };
+    });
+    
     let itemEditando = null;
 
     // Função para atualizar as datas e situações
