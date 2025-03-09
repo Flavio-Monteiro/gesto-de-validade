@@ -27,12 +27,23 @@ h1 {
 }
 
 /* Estilos dos botões */
+.botoes_contents {
+    display: flex;
+    width: 65%;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 10px; /* Espaçamento entre os botões */
+   
+    border-radius: 10px;
+}
 .botoes {
     display: flex;
     flex-wrap: wrap;
-    justify-content: space-evenly;
+    justify-content: center;
+    align-items: center;
     gap: 10px; /* Espaçamento entre os botões */
     margin-bottom: 20px;
+    border-radius: 10px;
 }
 
 .botoes button {
@@ -43,6 +54,8 @@ h1 {
     cursor: pointer;
     transition: background-color 0.3s ease;
     font-size: 14px;
+    width: 200px;
+    height: 50px;
 }
 
 /* Botão de Importar Planilha (Azul - Ação de carregar dados) */
@@ -60,7 +73,7 @@ h1 {
 }
 
 .botoes button:nth-child(3):hover {
-    background-color: #218838; /* Verde mais escuro */
+    background-color: #217288; /* Verde mais escuro */
 }
 
 /* Botão de Salvar Base de Dados (Azul claro - Ação de salvar) */
@@ -83,7 +96,7 @@ h1 {
 
 /* Botão de Atualizar Datas (Roxo - Ação de atualização) */
 .botoes button:nth-child(6) {
-    background-color: #6f42c1; /* Roxo */
+    background-color: #c14295; /* Roxo */
 }
 
 .botoes button:nth-child(6):hover {
@@ -196,6 +209,22 @@ h1 {
 #estoqueTable button:hover {
     background-color: #c82333; /* Vermelho mais escuro */
 }
+/* Estilo para o input de arquivo */
+#fileInput {
+    padding: 0px;
+    display: flex;
+    flex-wrap: wrap;
+     border-radius: 5px;
+     font-size: 16px;
+     
+ }
+ #importar_planilha{
+     background: #74a8fc;
+ 
+     &:hover{
+         background: #6696e4;
+     }
+ }
 
 /* Responsividade */
 @media (max-width: 768px) {
@@ -248,13 +277,12 @@ h1 {
     #estoqueTable button {
         font-size: 12px;
     }
+    #fileInput {
+    
+         
+         font-size: 12px;
+         
+     }
 }
 
-/* Estilo para o input de arquivo */
-#fileInput {
-    padding: 10px;
-    border: 1px solid #ccc;
-    border-radius: 5px;
-    background-color: #fff;
-    font-size: 14px;
-}
+

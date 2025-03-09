@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Gestor de Validade</title>
+    <title>Gestor de Validades</title>
     <link rel="stylesheet" href="main.css" />
 </head>
 
@@ -265,12 +265,14 @@
         <h1>Gestor de Validade em Estoque</h1>
         <div class="botoes">
             <input type="file" id="fileInput" accept=".xlsx, .xls" />
-            <button onclick="importarDados()">Importar Planilha</button>
-            <button onclick="mostrarFormulario()">Adicionar Manualmente</button>
-            <button onclick="salvarBaseDados()">Salvar Base de Dados</button>
-            <button onclick="salvarDadosManuais()">Salvar Dados Manuais</button>
-            <button onclick="atualizarDatas()">Atualizar Datas</button> <!-- Novo botão -->
-            <button onclick="limparDados()" class="btn-limpar">Limpar Dados</button>
+            <div class="botoes_contents">
+                <button id="importar_planilha" onclick="importarDados()">Importar Planilha</button>
+                <button onclick="mostrarFormulario()">Adicionar Manualmente</button>
+                <button onclick="salvarBaseDados()">Salvar Base de Dados</button>
+                <button onclick="salvarDadosManuais()">Salvar Dados Manuais</button>
+                <button onclick="atualizarDatas()">Atualizar Datas</button> <!-- Novo botão -->
+                <button onclick="limparDados()" class="btn-limpar">Limpar Dados</button>
+            </div>
         </div>
 
         <!-- Formulário para adicionar dados manualmente (inicialmente oculto) -->
