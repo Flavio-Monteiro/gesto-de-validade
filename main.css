@@ -2,8 +2,12 @@
 body {
     font-family: Arial, sans-serif;
     background-color: #f4f4f4;
+    background-image: url(5134341.jpg);
+    background-position: center;
+    background-size: cover;
+    background-attachment: fixed;
     margin: 0;
-    padding: 0;
+    padding: 20px;
 }
 
 .container {
@@ -11,23 +15,38 @@ body {
     margin: 0 auto;
     padding: 20px;
     background-color: #fff;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.473);
+    border-radius: 10px;
 }
 
 h1 {
     text-align: center;
     color: #333;
+    border-bottom: 1px solid #c5c5c5;
+    padding: 10px;
 }
 
+/* Estilos dos botões */
+.botoes_contents {
+    display: flex;
+    width: 65%;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 10px; /* Espaçamento entre os botões */
+   
+    border-radius: 10px;
+}
 .botoes {
+    
     display: flex;
     flex-wrap: wrap;
-    gap: 10px;
+    justify-content: space-evenly;
+    align-items: center;
+    gap: 10px; /* Espaçamento entre os botões */
     margin-bottom: 20px;
-    
+    border-radius: 10px;
 }
 
-/* Estilos dos botões com cores semânticas */
 .botoes button {
     padding: 10px 20px;
     color: #fff;
@@ -35,13 +54,14 @@ h1 {
     border-radius: 5px;
     cursor: pointer;
     transition: background-color 0.3s ease;
-  
+    font-size: 14px;
+    width: 200px;
+    height: 50px;
 }
 
 /* Botão de Importar Planilha (Azul - Ação de carregar dados) */
 .botoes button:nth-child(2) {
     background-color: #007bff; /* Azul */
-     
 }
 
 .botoes button:nth-child(2):hover {
@@ -54,7 +74,7 @@ h1 {
 }
 
 .botoes button:nth-child(3):hover {
-    background-color: #218838; /* Verde mais escuro */
+    background-color: #217288; /* Verde mais escuro */
 }
 
 /* Botão de Salvar Base de Dados (Azul claro - Ação de salvar) */
@@ -75,10 +95,18 @@ h1 {
     background-color: #1aa179; /* Verde claro mais escuro */
 }
 
+/* Botão de Atualizar Datas (Roxo - Ação de atualização) */
+.botoes button:nth-child(6) {
+    background-color: #c14295; /* Roxo */
+}
+
+.botoes button:nth-child(6):hover {
+    background-color: #5a3d8e; /* Roxo mais escuro */
+}
+
 /* Botão de Limpar Dados (Vermelho - Ação destrutiva) */
 .botoes button.btn-limpar {
     background-color: #dc3545; /* Vermelho */
-    padding: 20px;
 }
 
 .botoes button.btn-limpar:hover {
@@ -86,7 +114,7 @@ h1 {
 }
 
 /* Estilos do formulário */
-#formularioAdicionar {
+#formularioAdicionar, #modalEditar {
     background-color: #f9f9f9;
     padding: 20px;
     border-radius: 5px;
@@ -94,18 +122,18 @@ h1 {
     margin-bottom: 20px;
 }
 
-#formularioAdicionar h2 {
+#formularioAdicionar h2, #modalEditar h2 {
     margin-top: 0;
     color: #333;
 }
 
-#formularioAdicionar label {
+#formularioAdicionar label, #modalEditar label {
     display: block;
     margin-bottom: 5px;
     color: #555;
 }
 
-#formularioAdicionar input {
+#formularioAdicionar input, #modalEditar input {
     width: 100%;
     padding: 10px;
     margin-bottom: 15px;
@@ -114,7 +142,7 @@ h1 {
     font-size: 16px;
 }
 
-#formularioAdicionar button[type="submit"] {
+#formularioAdicionar button[type="submit"], #modalEditar button[type="submit"] {
     background-color: #28a745; /* Verde */
     color: #fff;
     border: none;
@@ -124,11 +152,11 @@ h1 {
     transition: background-color 0.3s ease;
 }
 
-#formularioAdicionar button[type="submit"]:hover {
+#formularioAdicionar button[type="submit"]:hover, #modalEditar button[type="submit"]:hover {
     background-color: #218838; /* Verde mais escuro */
 }
 
-#formularioAdicionar button[type="button"] {
+#formularioAdicionar button[type="button"], #modalEditar button[type="button"] {
     background-color: #dc3545; /* Vermelho */
     color: #fff;
     border: none;
@@ -138,10 +166,8 @@ h1 {
     transition: background-color 0.3s ease;
 }
 
-#formularioAdicionar button[type="button"]:hover {
+#formularioAdicionar button[type="button"]:hover, #modalEditar button[type="button"]:hover {
     background-color: #c82333; /* Vermelho mais escuro */
-  
-    
 }
 
 /* Estilos da tabela */
@@ -158,13 +184,13 @@ h1 {
 #estoqueTable th,
 #estoqueTable td {
     padding: 12px;
-    text-align: left;
-    border-bottom: 1px solid #ddd;
+    text-align: center;
+    border: 1px solid #a2a2a2;
 }
 
 #estoqueTable th {
-    background-color: #007bff; /* Azul */
-    color: #fff;
+    background-color: #1d3752; /* Azul */
+    color: #f1f1f1;
 }
 
 #estoqueTable tr:hover {
@@ -184,6 +210,22 @@ h1 {
 #estoqueTable button:hover {
     background-color: #c82333; /* Vermelho mais escuro */
 }
+/* Estilo para o input de arquivo */
+#fileInput {
+    padding: 0px;
+    display: flex;
+    flex-wrap: wrap;
+     border-radius: 5px;
+     font-size: 16px;
+     
+ }
+ #importar_planilha{
+     background: #74a8fc;
+ 
+     &:hover{
+         background: #6696e4;
+     }
+ }
 
 /* Responsividade */
 @media (max-width: 768px) {
@@ -196,11 +238,11 @@ h1 {
         margin-bottom: 10px;
     }
 
-    #formularioAdicionar {
+    #formularioAdicionar, #modalEditar {
         padding: 15px;
     }
 
-    #formularioAdicionar input {
+    #formularioAdicionar input, #modalEditar input {
         font-size: 14px;
     }
 
@@ -220,11 +262,11 @@ h1 {
         font-size: 24px;
     }
 
-    #formularioAdicionar h2 {
+    #formularioAdicionar h2, #modalEditar h2 {
         font-size: 20px;
     }
 
-    #formularioAdicionar input {
+    #formularioAdicionar input, #modalEditar input {
         font-size: 12px;
     }
 
@@ -236,9 +278,12 @@ h1 {
     #estoqueTable button {
         font-size: 12px;
     }
+    #fileInput {
+    
+         
+         font-size: 12px;
+         
+     }
 }
 
 
-#fileInput {
-  padding: 20px;
-}
